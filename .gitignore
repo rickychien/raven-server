@@ -1,0 +1,13 @@
+build/
+cert/
+
+*~
+*.sw[mnpcod]
+*.log
+*.lock
+*.tmp
+*.tmp.*
+log.txt
+
+.vscode/
+node_modules/
