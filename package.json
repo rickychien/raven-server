@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "engines": {
+    "node": "14.0.x",
+    "npm": "6.14.x"
+  },
   "license": "MIT",
   "description": "Truly lightweight and anonymous P2P WebRTC voice call",
   "scripts": {
