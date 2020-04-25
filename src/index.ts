@@ -1,7 +1,10 @@
+import http from 'http'
 import WebSocket from 'ws'
 import SignalingService from './signaling.js'
 
-const wss = new WebSocket.Server({ port: 5001 })
+const PORT = 5001
+const server = http.createServer()
+const wss = new WebSocket.Server({ server })
 const signalingService = new SignalingService()
 
 wss.on('connection', function (ws) {
@@ -19,3 +22,6 @@ wss.on('connection', function (ws) {
     }
   })
 })
+
+server.listen(PORT)
+console.log('Server is listening on port %d', PORT)
