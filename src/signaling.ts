@@ -45,7 +45,12 @@ export default class SignalingService {
   broadcastToRoomPeers(
     type: BroadcastType,
     ws: WebSocket,
-    payload: { uid?: string; userName?: string; mute?: boolean }
+    payload: {
+      uid?: string
+      userName?: string
+      roomName?: string
+      mute?: boolean
+    }
   ) {
     const sender = this.clients.get(ws)
 
@@ -122,7 +127,8 @@ export default class SignalingService {
   }
 
   onClientUpdate(ws: WebSocket, payload: { userName: string; mute: boolean }) {
-    this.clients.set(ws, payload)
+    // Merge new payload data to original client (partial update)
+    this.clients.set(ws, { ...this.clients.get(ws), ...payload })
     this.broadcastToRoomPeers('peer-updated', ws, payload)
   }
 
