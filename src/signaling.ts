@@ -23,6 +23,8 @@ export default class SignalingService {
   ) {
     const sender = this.clients.get(ws)
 
+    if (!sender) return
+
     this.clients.forEach((client, clientWS) => {
       if (client.roomName === sender.roomName && client.uid === payload.uid) {
         clientWS.send(
@@ -53,6 +55,8 @@ export default class SignalingService {
     }
   ) {
     const sender = this.clients.get(ws)
+
+    if (!sender) return
 
     this.clients.forEach((client, clientWS) => {
       if (client.roomName === sender.roomName && client.uid !== sender.uid) {
