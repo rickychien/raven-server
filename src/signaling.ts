@@ -79,7 +79,11 @@ export default class SignalingService {
 
   onMessage(ws: WebSocket, message: string) {
     const { type, payload } = JSON.parse(message)
-    this[`onClient${type[0].toUpperCase() + type.slice(1)}`](ws, payload)
+
+    // Ignore heartbeat message
+    if (type !== 'heartbeat') {
+      this[`onClient${type[0].toUpperCase() + type.slice(1)}`](ws, payload)
+    }
   }
 
   addClient(ws: WebSocket) {
