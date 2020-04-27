@@ -93,10 +93,9 @@ export default class SignalingService {
 
   onClientJoin(
     ws: WebSocket,
-    payload: { userName: string; roomName: string; mute: boolean }
+    payload: { uid: string; userName: string; roomName: string; mute: boolean }
   ) {
-    const uid = uuid.generate()
-    const { userName, roomName, mute } = payload
+    const { uid = uuid.generate(), userName, roomName, mute } = payload
 
     // Store the client
     this.clients.set(ws, {
