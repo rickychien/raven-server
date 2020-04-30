@@ -12,7 +12,8 @@ export default class SignalingService {
       uid?: string
       userName?: string
       roomName?: string
-      mute?: boolean
+      muteSpeaker?: boolean
+      muteVolume?: boolean
     }
   > = new Map()
 
@@ -51,7 +52,8 @@ export default class SignalingService {
       uid?: string
       userName?: string
       roomName?: string
-      mute?: boolean
+      muteSpeaker?: boolean
+      muteVolume?: boolean
     }
   ) {
     const sender = this.clients.get(ws)
@@ -97,16 +99,29 @@ export default class SignalingService {
 
   onClientJoin(
     ws: WebSocket,
-    payload: { uid: string; userName: string; roomName: string; mute: boolean }
+    payload: {
+      uid: string
+      userName: string
+      roomName: string
+      muteSpeaker: boolean
+      muteVolume: boolean
+    }
   ) {
-    const { uid = uuid.generate(), userName, roomName, mute } = payload
+    const {
+      uid = uuid.generate(),
+      userName,
+      roomName,
+      muteSpeaker,
+      muteVolume,
+    } = payload
 
     // Store the client
     this.clients.set(ws, {
       uid,
       userName,
       roomName,
-      mute,
+      muteSpeaker,
+      muteVolume,
     })
 
     // If the room is the new created, then stores room info
@@ -133,7 +148,7 @@ export default class SignalingService {
     this.broadcastToRoomPeers('peer-joined', ws, {})
   }
 
-  onClientUpdate(ws: WebSocket, payload: { userName: string; mute: boolean }) {
+  onClientUpdate(ws: WebSocket, payload: any) {
     // Merge new payload data to original client (partial update)
     this.clients.set(ws, { ...this.clients.get(ws), ...payload })
     this.broadcastToRoomPeers('peer-updated', ws, payload)
