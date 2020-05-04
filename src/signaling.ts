@@ -94,7 +94,17 @@ export default class SignalingService {
 
   deleteClient(ws: WebSocket) {
     this.broadcastToRoomPeers('peer-left', ws, {})
+
+    // Remove the room if no one exists.
+    let found = false
+    const { roomName } = this.clients.get(ws)
     this.clients.delete(ws)
+    this.clients.forEach((client) => {
+      found = client.roomName === roomName
+    })
+    if (!found) {
+      this.rooms.delete(roomName)
+    }
   }
 
   onClientJoin(
